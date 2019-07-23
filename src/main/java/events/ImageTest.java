@@ -40,10 +40,9 @@ public class ImageTest extends ListenerAdapter {
                             emb.setColor(Color.RED);
                             emb.setImage(url);
                             e.getChannel().sendMessage(emb.build()).queue();
-                            //e.getChannel().sendMessage("Am i dead?").queue();
+
                             driver.close();
                             driver.quit();
-                            //e.getChannel().sendMessage("Am I dead").queue();
 
                             flag = false;
                         }
@@ -51,17 +50,15 @@ public class ImageTest extends ListenerAdapter {
                         //
                     }
                 }
-                //e.getChannel().sendMessage("1").queue();
                 driver.close();
                 driver.quit();
                 //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
-                e.getChannel().sendMessage("2").queue();
+
                 try {
                     e.getChannel().sendMessage("3").queue();
                     SaberSpawn.botCreator();
                 } catch (java.lang.Exception ex) {
                     e.getChannel().sendMessage("4").queue();
-                    System.out.println("wtf");
                 }
 
             }
@@ -83,16 +80,14 @@ public class ImageTest extends ListenerAdapter {
                                 && listImages.get(randomNum).getAttribute("src").contains("images")) {
 
                             String url = listImages.get(randomNum).getAttribute("src");
-                            //System.out.println(listImages.get(i).getAttribute("src"));
                             EmbedBuilder emb = new EmbedBuilder();
                             emb.setTitle("Image", url);
                             emb.setColor(Color.RED);
                             emb.setImage(url);
                             e.getChannel().sendMessage(emb.build()).queue();
-                            //e.getChannel().sendMessage("Am i dead?").queue();
+
                             driver.close();
                             driver.quit();
-                            //e.getChannel().sendMessage("Am I dead").queue();
 
                             flag = false;
                         }
@@ -100,10 +95,10 @@ public class ImageTest extends ListenerAdapter {
                         //
                     }
                 }
-                //e.getChannel().sendMessage("1").queue();
                 driver.close();
                 driver.quit();
                 //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
+
                 e.getChannel().sendMessage("2").queue();
                 try {
                     e.getChannel().sendMessage("3").queue();
@@ -115,6 +110,5 @@ public class ImageTest extends ListenerAdapter {
 
             }
         }
-        //e.getChannel().sendMessage("5").queue();
     }
 }
