@@ -1,4 +1,9 @@
 package saberBot;
+/*
+TODO: add random video from homepage option
+TODO: add error correction for inputs, for example, if the second word is nothing
+TODO: Music maybe?
+*/
 
 import events.*;
 import net.dv8tion.jda.core.EmbedBuilder;

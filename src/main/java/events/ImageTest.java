@@ -19,8 +19,8 @@ public class ImageTest extends ListenerAdapter {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Mehul Pillai\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
         String[] arrMessage = e.getMessage().getContentRaw().split(" ");
         if (!e.getMember().getUser().isBot()) {
-            WebDriver driver = new ChromeDriver();
             if (arrMessage[0].equalsIgnoreCase("!mimage")) {
+                WebDriver driver = new ChromeDriver();
                 int randomNum = 0;
                 String search = "https://www.zedge.net/find/" + arrMessage[1];
                 driver.get(search);
@@ -64,6 +64,7 @@ public class ImageTest extends ListenerAdapter {
             }
 
             if (arrMessage[0].equalsIgnoreCase("!dimage")) {
+                WebDriver driver = new ChromeDriver();
                 int randomNum = 0;
                 String search = "https://wall.alphacoders.com/search.php?search=" + arrMessage[1];
                 driver.get(search);

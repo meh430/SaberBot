@@ -18,8 +18,10 @@ public class VideoTest extends ListenerAdapter {
         String[] arrMessage = e.getMessage().getContentRaw().split(" ");
 
         if (!e.getMember().getUser().isBot()) {
+
             if (arrMessage[0].equalsIgnoreCase("!video")) {
                 WebDriver driver = new ChromeDriver();
+
                 String search = "https://www.youtube.com/results?search_query=" + arrMessage[1];
                 driver.get(search);
                 List<WebElement> listVideos = driver.findElements(By.tagName("a"));
@@ -49,6 +51,8 @@ public class VideoTest extends ListenerAdapter {
 
                 try {
                     e.getChannel().sendMessage("3").queue();
+                    driver.close();
+                    driver.quit();
                     SaberSpawn.botCreator();
                 } catch (java.lang.Exception ex) {
                     e.getChannel().sendMessage("4").queue();
