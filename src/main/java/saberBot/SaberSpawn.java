@@ -207,12 +207,15 @@ public class SaberSpawn extends ListenerAdapter {
     }
 
     private void loadAndPlay(@NotNull final TextChannel channel, final String trackUrl) {
+        final EmbedBuilder emb = new EmbedBuilder();
+        emb.setColor(Color.CYAN);
         final GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 
             public void trackLoaded(AudioTrack track) {
-                channel.sendMessage("Adding to queue " + track.getInfo().title).queue();
+                emb.setTitle("Playing " + track.getInfo().title);
+                channel.sendMessage(emb.build()).queue();
 
                 play(channel.getGuild(), musicManager, track);
             }
@@ -225,7 +228,8 @@ public class SaberSpawn extends ListenerAdapter {
                     firstTrack = playlist.getTracks().get(0);
                 }
 
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
+                emb.setTitle("Playing " + firstTrack.getInfo().title + " (first track of playlist" + playlist.getName() + ")");
+                channel.sendMessage(emb.build()).queue();
 
                 play(channel.getGuild(), musicManager, firstTrack);
             }
@@ -252,7 +256,7 @@ public class SaberSpawn extends ListenerAdapter {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
 
-        channel.sendMessage("Skipped to next track.").queue();
+        channel.sendMessage("Skipped").queue();
     }
 
     private static void connectToFirstVoiceChannel(@NotNull AudioManager audioManager) {
