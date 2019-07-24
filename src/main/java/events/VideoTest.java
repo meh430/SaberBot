@@ -19,7 +19,8 @@ public class VideoTest extends ListenerAdapter {
 
         if (!e.getMember().getUser().isBot()) {
 
-            if (arrMessage[0].equalsIgnoreCase("!video")) {
+            if (arrMessage[0].equalsIgnoreCase("!video") && !arrMessage[1].equalsIgnoreCase(" ")) {
+                int randomNum = 0;
                 WebDriver driver = new ChromeDriver();
 
                 String search = "https://www.youtube.com/results?search_query=" + arrMessage[1];
@@ -28,7 +29,7 @@ public class VideoTest extends ListenerAdapter {
 
                 boolean flag = true;
                 while (flag) {
-                    int randomNum = (int) (Math.random() * 100) + 1;
+                    randomNum = (int) (Math.random() * ((listVideos.size() - 1) + 1)) + 1;
                     try {
                         if (!(listVideos.get(randomNum).getAttribute("href").equals("")) && !(listVideos.get(randomNum).getAttribute("href") == null)
                                 && listVideos.get(randomNum).getAttribute("href").contains("watch")) {
@@ -41,21 +42,22 @@ public class VideoTest extends ListenerAdapter {
                             flag = false;
                         }
                     } catch (Exception ex) {
-                        //
+                        ex.printStackTrace();
+                        //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
                     }
                 }
 
-                driver.close();
+                //driver.close();
                 driver.quit();
                 //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
 
                 try {
-                    e.getChannel().sendMessage("3").queue();
-                    driver.close();
+                    //driver.close();
                     driver.quit();
                     SaberSpawn.botCreator();
-                } catch (java.lang.Exception ex) {
-                    e.getChannel().sendMessage("4").queue();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
                 }
             }
         }

@@ -16,13 +16,12 @@ import org.jetbrains.annotations.NotNull;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 
-//https://www.youtube.com/watch?v=jsRchR-jrf4
 public class SaberSpawn extends ListenerAdapter {
     private static JDA saber;
 
     public static void main(String[] args) throws LoginException {
 
-        saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTWzGA.chU0j_FQDA2M12wu1pm1MRYnmoE").build();
+        saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTeV7A.JYWuwqW0kglpwiGoapee7Q2mFg0").build();
 
         saber.addEventListener(new EventTest());
         saber.addEventListener(new OperationEvent());
@@ -40,6 +39,24 @@ public class SaberSpawn extends ListenerAdapter {
         EmbedBuilder emb = new EmbedBuilder();
 
         if (!e.getMember().getUser().isBot()) {
+
+            if (e.getMessage().getContentRaw().equalsIgnoreCase("!help")) {
+                emb.setColor(69);
+                emb.setThumbnail("https://i.redd.it/5z4vu11pgje11.jpg");
+                emb.setTitle("Help Me!!");
+
+                emb.addField("!rolldie", "Rolls a die", true);
+                emb.addField("!meme", "Get a random meme", false);
+                emb.addField("!saber", "Get a random Saber pic", false);
+                emb.addField("!video [search]", "Type a search without the brackets to get a youtube video", false);
+                emb.addField("!mi [search]", "Type a search without the brackets to get a mobile wallpaper", false);
+                emb.addField("!di [search]", "Type a search without the brackets to get a desktop wallpaper", false);
+                emb.addField("!r [search]", "Type a valid subreddit name to get a random picture from there", false);
+                emb.addField("!add, !sub, !mult, !div", "Performs operation to succeeding values", false);
+
+                e.getChannel().sendMessage(emb.build()).queue();
+            }
+
             if (e.getMessage().getContentRaw().equalsIgnoreCase("who are you?")) {
                 emb.setTitle("Seiba!", "https://typemoon.fandom.com/wiki/Saber_(Fate/stay_night)");
                 emb.setColor(Color.BLUE);
@@ -58,12 +75,19 @@ public class SaberSpawn extends ListenerAdapter {
             if (e.getMessage().getContentRaw().equalsIgnoreCase("!rolldie")) {
                 e.getChannel().sendMessage("You rolled a " + (int) (Math.random() * 6) + 1).queue();
             }
+
+            if (e.getMessage().getContentRaw().equalsIgnoreCase("gimme seiba")
+                    || e.getMessage().getContentRaw().equalsIgnoreCase("OwO")) {
+
+                e.getChannel().sendMessage("UwU").queue();
+                e.getChannel().sendMessage("https://www.youtube.com/watch?v=jsRchR-jrf4").queue();
+            }
         }
 
     }//close event
 
     public static void botCreator() throws Exception {
-        saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTWzGA.chU0j_FQDA2M12wu1pm1MRYnmoE").build();
+        saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTeV7A.JYWuwqW0kglpwiGoapee7Q2mFg0").build();
     }
 
 }
