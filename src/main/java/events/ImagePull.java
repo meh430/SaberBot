@@ -105,40 +105,40 @@ public class ImagePull extends ListenerAdapter {
         RinImageURL.add("https://external-preview.redd.it/iXad0WN-eYSScavPDUPAbkVr2ZN4iju5qE0JOtuCLck.jpg?auto=webp&s=f2f0576621d4515bbdedad85ec4f7534c1e2af50");
 
 
+        if (e.getMember().getUser().isBot()) {
+            return;
+        }
+        if (e.getMessage().getContentRaw().equalsIgnoreCase("!meme")) {
+            int max = memeURL.size() - 1;
 
-        if (!e.getMember().getUser().isBot()) {
-            if (e.getMessage().getContentRaw().equalsIgnoreCase("!meme")) {
-                int max = memeURL.size() - 1;
+            int index = (int) (Math.random() * (max + 1));
 
-                int index = (int) (Math.random() * (max + 1));
+            emb.setTitle("Here's your meme:");
+            emb.setColor(Color.GREEN);
+            emb.setImage(memeURL.get(index));
+            e.getChannel().sendMessage(emb.build()).queue();
+        }
 
-                emb.setTitle("Here's your meme:");
-                emb.setColor(Color.GREEN);
-                emb.setImage(memeURL.get(index));
-                e.getChannel().sendMessage(emb.build()).queue();
-            }
+        if (e.getMessage().getContentRaw().equalsIgnoreCase("!saber")) {
+            int max = saberImageURL.size() - 1;
 
-            if (e.getMessage().getContentRaw().equalsIgnoreCase("!saber")) {
-                int max = saberImageURL.size() - 1;
+            int index = (int) (Math.random() * (max + 1));
 
-                int index = (int) (Math.random() * (max + 1));
+            emb.setTitle("Here's your seiba:");
+            emb.setColor(Color.BLUE);
+            emb.setImage(saberImageURL.get(index));
+            e.getChannel().sendMessage(emb.build()).queue();
+        }
 
-                emb.setTitle("Here's your seiba:");
-                emb.setColor(Color.BLUE);
-                emb.setImage(saberImageURL.get(index));
-                e.getChannel().sendMessage(emb.build()).queue();
-            }
+        if (e.getMessage().getContentRaw().equalsIgnoreCase("!rin")) {
+            int max = RinImageURL.size() - 1;
 
-            if (e.getMessage().getContentRaw().equalsIgnoreCase("!rin")) {
-                int max = RinImageURL.size() - 1;
+            int index = (int) (Math.random() * (max + 1));
 
-                int index = (int) (Math.random() * (max + 1));
-
-                emb.setTitle("Here's your one true Tohsaka: ");
-                emb.setColor(Color.RED);
-                emb.setImage(RinImageURL.get(index));
-                e.getChannel().sendMessage(emb.build()).queue();
-            }
+            emb.setTitle("Here's your one true Tohsaka: ");
+            emb.setColor(Color.RED);
+            emb.setImage(RinImageURL.get(index));
+            e.getChannel().sendMessage(emb.build()).queue();
         }
     }
 }

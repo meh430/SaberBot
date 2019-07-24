@@ -11,6 +11,10 @@ public class EventTest extends ListenerAdapter {
         //String [] userMessageSentArr = discordEvent.getMessage().getContentRaw().trim().split(" ");
         String userMessageSent = discordEvent.getMessage().getContentRaw();
 
+        if (discordEvent.getMember().getUser().isBot()) {
+            return;
+        }
+
         if (userMessageSent.equalsIgnoreCase("Hello World")) {
             discordEvent.getChannel().sendMessage("Wow, you did it!!").queue();
         }

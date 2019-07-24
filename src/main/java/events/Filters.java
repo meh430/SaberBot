@@ -22,21 +22,23 @@ public class Filters extends ListenerAdapter {
         noBadWords.add("cunt");
         noBadWords.add("shit");
 
-        if (!e.getMember().getUser().isBot()) {
-            String[] strMessage = e.getMessage().getContentRaw().split(" ");
+        if (e.getMember().getUser().isBot()) {
+            return;
+        }
+        String[] strMessage = e.getMessage().getContentRaw().split(" ");
 
-            for (String s : strMessage) {
-                if (noBadWords.contains(s) && !e.getChannel().toString().contains("gilgamesh")) {
-                    emb.setTitle("No Bad Words!");
-                    emb.addField("User: " + e.getMember().getUser().getName(), "Stop saying bad words, you can go here to the Gilgamesh channel for that!", true);
-                    emb.setColor(Color.RED);
-                    emb.setImage("https://img.fireden.net/v/thumb/1532/63/1532634981382s.jpg");
-                    e.getChannel().sendMessage(emb.build()).queue();
-                    e.getMessage().delete().queue();
-                    System.out.println(e.getChannel().toString());
-                }
+        for (String s : strMessage) {
+            if (noBadWords.contains(s) && !e.getChannel().toString().contains("gilgamesh")) {
+                emb.setTitle("No Bad Words!");
+                emb.addField("User: " + e.getMember().getUser().getName(), "Stop saying bad words, you can go here to the Gilgamesh channel for that!", true);
+                emb.setColor(Color.RED);
+                emb.setImage("https://img.fireden.net/v/thumb/1532/63/1532634981382s.jpg");
+                e.getChannel().sendMessage(emb.build()).queue();
+                e.getMessage().delete().queue();
+                System.out.println(e.getChannel().toString());
             }
         }
+
 
     }
 }

@@ -17,49 +17,52 @@ public class VideoTest extends ListenerAdapter {
 
         String[] arrMessage = e.getMessage().getContentRaw().split(" ");
 
-        if (!e.getMember().getUser().isBot()) {
+        if (e.getMember().getUser().isBot()) {
+            return;
+        }
 
-            if (arrMessage[0].equalsIgnoreCase("!video") && !arrMessage[1].equalsIgnoreCase(" ")) {
-                int randomNum = 0;
-                WebDriver driver = new ChromeDriver();
 
-                String search = "https://www.youtube.com/results?search_query=" + arrMessage[1];
-                driver.get(search);
-                List<WebElement> listVideos = driver.findElements(By.tagName("a"));
+        if (arrMessage[0].equalsIgnoreCase("!video") && !arrMessage[1].equalsIgnoreCase(" ")) {
+            int randomNum;
+            WebDriver driver = new ChromeDriver();
 
-                boolean flag = true;
-                while (flag) {
-                    randomNum = (int) (Math.random() * ((listVideos.size() - 1) + 1)) + 1;
-                    try {
-                        if (!(listVideos.get(randomNum).getAttribute("href").equals("")) && !(listVideos.get(randomNum).getAttribute("href") == null)
-                                && listVideos.get(randomNum).getAttribute("href").contains("watch")) {
-                            String url = listVideos.get(randomNum).getAttribute("href");
-                            e.getChannel().sendMessage(url).queue();
+            String search = "https://www.youtube.com/results?search_query=" + arrMessage[1];
+            driver.get(search);
+            List<WebElement> listVideos = driver.findElements(By.tagName("a"));
 
-                            driver.close();
-                            driver.quit();
-
-                            flag = false;
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
-                    }
-                }
-
-                //driver.close();
-                driver.quit();
-                //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
-
+            boolean flag = true;
+            while (flag) {
+                randomNum = (int) (Math.random() * ((listVideos.size() - 1) + 1)) + 1;
                 try {
-                    //driver.close();
-                    driver.quit();
-                    SaberSpawn.botCreator();
+                    if (!(listVideos.get(randomNum).getAttribute("href").equals("")) && !(listVideos.get(randomNum).getAttribute("href") == null)
+                            && listVideos.get(randomNum).getAttribute("href").contains("watch")) {
+                        String url = listVideos.get(randomNum).getAttribute("href");
+                        e.getChannel().sendMessage(url).queue();
+
+                        driver.close();
+                        driver.quit();
+
+                        flag = false;
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
                 }
             }
+
+            //driver.close();
+            driver.quit();
+            //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
+
+            try {
+                //driver.close();
+                driver.quit();
+                SaberSpawn.botCreator();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
+            }
         }
+
     }
 }
