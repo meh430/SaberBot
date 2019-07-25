@@ -1,8 +1,4 @@
 package saberBot;
-/*
-TODO: pause music
-TODO: add new commands to help
-*/
 
 import Audio.GuildMusicManager;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -70,6 +66,9 @@ public class SaberSpawn extends ListenerAdapter {
             emb.addField("!rolldie", "Rolls a die", true);
             emb.addField("!meme", "Get a random meme", false);
             emb.addField("!saber", "Get a random Saber pic", false);
+            emb.addField("!rin", "Get a random Rin pic", false);
+            emb.addField("!playl [link]", "Paste a url to a youtube or soundcloud track to play it in voice chat", false);
+            emb.addField("!play [search]", "Type a search without the brackets to play related music in voice chat", false);
             emb.addField("!video [search]", "Type a search without the brackets to get a youtube video", false);
             emb.addField("!mi [search]", "Type a search without the brackets to get a mobile wallpaper", false);
             emb.addField("!di [search]", "Type a search without the brackets to get a desktop wallpaper", false);
@@ -98,7 +97,8 @@ public class SaberSpawn extends ListenerAdapter {
 
 
         if (e.getMessage().getContentRaw().equalsIgnoreCase("!rolldie")) {
-            e.getChannel().sendMessage("You rolled a " + (int) (Math.random() * 6) + 1).queue();
+            int die = (int) (Math.random() * 6) + 1;
+            e.getChannel().sendMessage("You rolled a " + die).queue();
         }
 
 
@@ -161,7 +161,7 @@ public class SaberSpawn extends ListenerAdapter {
                 int randomNum = 0;
                 WebDriver driver = new ChromeDriver();
 
-                String search = "https://www.youtube.com/results?search_query=" + messageReceived[1];
+                String search = "https://www.youtube.com/results?search_query=" + messageReceived[1].trim().replace(" ", "+");
                 driver.get(search);
                 List<WebElement> listVideos = driver.findElements(By.tagName("a"));
 

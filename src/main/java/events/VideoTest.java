@@ -15,7 +15,7 @@ public class VideoTest extends ListenerAdapter {
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) throws NullPointerException {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Mehul Pillai\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
 
-        String[] arrMessage = e.getMessage().getContentRaw().split(" ");
+        String[] arrMessage = e.getMessage().getContentRaw().trim().split(" ", 2);
 
         if (e.getMember().getUser().isBot()) {
             return;
@@ -26,7 +26,7 @@ public class VideoTest extends ListenerAdapter {
             int randomNum;
             WebDriver driver = new ChromeDriver();
 
-            String search = "https://www.youtube.com/results?search_query=" + arrMessage[1];
+            String search = "https://www.youtube.com/results?search_query=" + arrMessage[1].trim().replace(" ", "+");
             driver.get(search);
             List<WebElement> listVideos = driver.findElements(By.tagName("a"));
 

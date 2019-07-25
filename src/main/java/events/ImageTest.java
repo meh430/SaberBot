@@ -17,15 +17,17 @@ public class ImageTest extends ListenerAdapter {
 
     public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) throws NullPointerException {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Mehul Pillai\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
-        String[] arrMessage = e.getMessage().getContentRaw().split(" ");
+        String[] arrMessage = e.getMessage().getContentRaw().trim().split(" ", 2);
 
         if (e.getMember().getUser().isBot()) {
             return;
         }
+
+        //mobile wallpaper
         if (arrMessage[0].equalsIgnoreCase("!mi") && !arrMessage[1].equalsIgnoreCase(" ")) {
             WebDriver driver = new ChromeDriver();
             int randomNum = 0;
-            String search = "https://www.zedge.net/find/" + arrMessage[1];
+            String search = "https://www.zedge.net/find/" + arrMessage[1].trim().replace(" ", "%20");
             driver.get(search);
 
             List<WebElement> listImages = driver.findElements(By.tagName("img"));
@@ -68,10 +70,11 @@ public class ImageTest extends ListenerAdapter {
 
         }
 
+        //desktop wallpaper
         if (arrMessage[0].equalsIgnoreCase("!di") && !arrMessage[1].equalsIgnoreCase(" ")) {
             WebDriver driver = new ChromeDriver();
             int randomNum = 0;
-            String search = "https://wall.alphacoders.com/search.php?search=" + arrMessage[1];
+            String search = "https://wall.alphacoders.com/search.php?search=" + arrMessage[1].trim().replace(" ", "+");
             driver.get(search);
 
             List<WebElement> listImages = driver.findElements(By.tagName("img"));
@@ -115,6 +118,7 @@ public class ImageTest extends ListenerAdapter {
 
         }
 
+        //reddit
         if (arrMessage[0].equalsIgnoreCase("!r") && !arrMessage[1].equalsIgnoreCase(" ")) {
             WebDriver driver = new ChromeDriver();
             int randomNum = 0;
