@@ -1,6 +1,9 @@
 package saberBot;
 
+import events.*;
+
 import Audio.GuildMusicManager;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -8,7 +11,7 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import events.*;
+
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -17,7 +20,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.managers.AudioManager;
-import org.jetbrains.annotations.NotNull;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,7 +28,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ public class SaberSpawn extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException {
 
+        //instance of new bot with the discord bot token as parameter for constructor
         saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTeV7A.JYWuwqW0kglpwiGoapee7Q2mFg0").build();
 
         saber.addEventListener(new EventTest());
@@ -48,17 +51,17 @@ public class SaberSpawn extends ListenerAdapter {
         saber.addEventListener(new ImagePull());
         saber.addEventListener(new ImageTest());
         saber.addEventListener(new VideoTest());
-    }
+    }//close main
 
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent discordEvent) {
         EmbedBuilder emb = new EmbedBuilder();
 
-        if (e.getMember().getUser().isBot()) {
+        if (discordEvent.getMember().getUser().isBot()) {
             return;
         }
 
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("!help")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("!help")) {
             emb.setColor(69);
             emb.setThumbnail("https://i.redd.it/5z4vu11pgje11.jpg");
             emb.setTitle("Help Me!!");
@@ -75,56 +78,53 @@ public class SaberSpawn extends ListenerAdapter {
             emb.addField("!r [search]", "Type a valid subreddit name to get a random picture from there", false);
             emb.addField("!add, !sub, !mult, !div", "Performs operation to succeeding values", false);
 
-            e.getChannel().sendMessage(emb.build()).queue();
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
 
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("who are you?")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("who are you?")) {
             emb.setTitle("Seiba!", "https://typemoon.fandom.com/wiki/Saber_(Fate/stay_night)");
             emb.setColor(Color.BLUE);
             emb.setImage("https://i.redd.it/1gegym41s1a31.jpg");
-            e.getChannel().sendMessage(emb.build()).queue();
-
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
 
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("I love you")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("I love you")) {
             emb.setTitle("I love you too!");
             emb.setColor(Color.blue);
             emb.setImage("https://media1.tenor.com/images/385ac5a7a5ce3bf946b223555318d755/tenor.gif?itemid=5869825");
-            e.getChannel().sendMessage(emb.build()).queue();
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
 
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("!rolldie")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("!rolldie")) {
             int die = (int) (Math.random() * 6) + 1;
-            e.getChannel().sendMessage("You rolled a " + die).queue();
+            discordEvent.getChannel().sendMessage("You rolled a " + die).queue();
         }
 
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("gimme seiba")
-                || e.getMessage().getContentRaw().equalsIgnoreCase("OwO")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("gimme seiba")
+                || discordEvent.getMessage().getContentRaw().equalsIgnoreCase("OwO")) {
 
-            e.getChannel().sendMessage("UwU").queue();
-            e.getChannel().sendMessage("https://www.youtube.com/watch?v=jsRchR-jrf4").queue();
+            discordEvent.getChannel().sendMessage("UwU").queue();
+            discordEvent.getChannel().sendMessage("https://www.youtube.com/watch?v=jsRchR-jrf4").queue();
         }
-
-
-    }
+    }//close message received
 
 
     public static void botCreator() throws Exception {
         saber = new JDABuilder("NjAyODQ2NDg5NjAxMTE0MTIy.XTeV7A.JYWuwqW0kglpwiGoapee7Q2mFg0").build();
-    }
+    }//recreate instance of the bot when the object is destroyed
 
 
     private final AudioPlayerManager playerManager;
+    //key is the guild id and value is is manager object
     private final Map<Long, GuildMusicManager> musicManagers;
 
 
     private SaberSpawn() {
         this.musicManagers = new HashMap();
-
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
@@ -136,7 +136,7 @@ public class SaberSpawn extends ListenerAdapter {
         GuildMusicManager musicManager = musicManagers.get(guildId);
 
         if (musicManager == null) {
-            musicManager = new GuildMusicManager(playerManager);//audio player manager instance
+            musicManager = new GuildMusicManager(playerManager);
             musicManagers.put(guildId, musicManager);
         }
 
@@ -181,13 +181,11 @@ public class SaberSpawn extends ListenerAdapter {
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
                     }
                 }//close while
 
                 //driver.close();
                 driver.quit();
-                //driver.manage().timeouts().pageLoadTimeout(0, TimeUnit.SECONDS);
 
                 try {
                     //driver.close();
@@ -195,7 +193,6 @@ public class SaberSpawn extends ListenerAdapter {
                     SaberSpawn.botCreator();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    //e.getChannel().sendMessage("Hmm, something went wrong...").queue();
                 }
 
             } else if ("!skip".equalsIgnoreCase(messageReceived[0])) {
@@ -206,11 +203,12 @@ public class SaberSpawn extends ListenerAdapter {
         super.onMessageReceived(event);
     }
 
-    private void loadAndPlay(@NotNull final TextChannel channel, final String trackUrl) {
+    private void loadAndPlay(final TextChannel channel, final String trackUrl) {
         final EmbedBuilder emb = new EmbedBuilder();
         emb.setColor(Color.CYAN);
         final GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
 
+        //anonymous class to override implementations in AudioLoadResultHandler
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 
             public void trackLoaded(AudioTrack track) {
@@ -246,21 +244,22 @@ public class SaberSpawn extends ListenerAdapter {
         });
     }
 
-    private void play(@NotNull Guild guild, @NotNull GuildMusicManager musicManager, AudioTrack track) {
+    private void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
         connectToFirstVoiceChannel(guild.getAudioManager());
 
         musicManager.scheduler.queue(track);
     }
 
-    private void skipTrack(@NotNull TextChannel channel) {
+    private void skipTrack(TextChannel channel) {
         GuildMusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.scheduler.nextTrack();
 
         channel.sendMessage("Skipped").queue();
     }
 
-    private static void connectToFirstVoiceChannel(@NotNull AudioManager audioManager) {
+    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
+            //foreach that creates a voicechannel object to cycle through a list of voice channels
             for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
                 audioManager.openAudioConnection(voiceChannel);
                 break;
@@ -268,5 +267,5 @@ public class SaberSpawn extends ListenerAdapter {
         }
     }
 
-}
+}//close class
 

@@ -3,13 +3,12 @@ package events;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class ImagePull extends ListenerAdapter {
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent discordEvent) {
         EmbedBuilder emb = new EmbedBuilder();
         //saber
         ArrayList<String> saberImageURL = new ArrayList<String>();
@@ -78,6 +77,7 @@ public class ImagePull extends ListenerAdapter {
         memeURL.add("http://i.imgur.com/Vw1ewTy.png");
         memeURL.add("https://i.redd.it/zyh2i129cqjz.jpg");
 
+        //rin
         ArrayList<String> RinImageURL = new ArrayList<String>();
         RinImageURL.add("https://preview.redd.it/xykfe6zgr3921.jpg?width=640&crop=smart&auto=webp&s=df77228ea7db77b0b96d3a0227dc3083548da050");
         RinImageURL.add("https://preview.redd.it/vr5x1d5789o21.jpg?width=640&crop=smart&auto=webp&s=780558bf932a83ad68de51c2e6084b8f4289d9c3");
@@ -105,10 +105,10 @@ public class ImagePull extends ListenerAdapter {
         RinImageURL.add("https://external-preview.redd.it/iXad0WN-eYSScavPDUPAbkVr2ZN4iju5qE0JOtuCLck.jpg?auto=webp&s=f2f0576621d4515bbdedad85ec4f7534c1e2af50");
 
 
-        if (e.getMember().getUser().isBot()) {
+        if (discordEvent.getMember().getUser().isBot()) {
             return;
         }
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("!meme")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("!meme")) {
             int max = memeURL.size() - 1;
 
             int index = (int) (Math.random() * (max + 1));
@@ -116,10 +116,10 @@ public class ImagePull extends ListenerAdapter {
             emb.setTitle("Here's your meme:");
             emb.setColor(Color.GREEN);
             emb.setImage(memeURL.get(index));
-            e.getChannel().sendMessage(emb.build()).queue();
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("!saber")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("!saber")) {
             int max = saberImageURL.size() - 1;
 
             int index = (int) (Math.random() * (max + 1));
@@ -127,10 +127,10 @@ public class ImagePull extends ListenerAdapter {
             emb.setTitle("Here's your seiba:");
             emb.setColor(Color.BLUE);
             emb.setImage(saberImageURL.get(index));
-            e.getChannel().sendMessage(emb.build()).queue();
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
 
-        if (e.getMessage().getContentRaw().equalsIgnoreCase("!rin")) {
+        if (discordEvent.getMessage().getContentRaw().equalsIgnoreCase("!rin")) {
             int max = RinImageURL.size() - 1;
 
             int index = (int) (Math.random() * (max + 1));
@@ -138,7 +138,7 @@ public class ImagePull extends ListenerAdapter {
             emb.setTitle("Here's your one true Tohsaka: ");
             emb.setColor(Color.RED);
             emb.setImage(RinImageURL.get(index));
-            e.getChannel().sendMessage(emb.build()).queue();
+            discordEvent.getChannel().sendMessage(emb.build()).queue();
         }
     }
 }

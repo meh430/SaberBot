@@ -5,25 +5,24 @@ import java.util.List;
 import saberBot.SaberSpawn;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class VideoTest extends ListenerAdapter {
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) throws NullPointerException {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent discordEvent) throws NullPointerException {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Mehul Pillai\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
 
-        String[] arrMessage = e.getMessage().getContentRaw().trim().split(" ", 2);
+        String[] arrMessage = discordEvent.getMessage().getContentRaw().trim().split(" ", 2);
 
-        if (e.getMember().getUser().isBot()) {
+        if (discordEvent.getMember().getUser().isBot()) {
             return;
         }
 
 
         if (arrMessage[0].equalsIgnoreCase("!video") && !arrMessage[1].equalsIgnoreCase(" ")) {
-            int randomNum;
+            int randomNum = 0;
             WebDriver driver = new ChromeDriver();
 
             String search = "https://www.youtube.com/results?search_query=" + arrMessage[1].trim().replace(" ", "+");
@@ -37,7 +36,7 @@ public class VideoTest extends ListenerAdapter {
                     if (!(listVideos.get(randomNum).getAttribute("href").equals("")) && !(listVideos.get(randomNum).getAttribute("href") == null)
                             && listVideos.get(randomNum).getAttribute("href").contains("watch")) {
                         String url = listVideos.get(randomNum).getAttribute("href");
-                        e.getChannel().sendMessage(url).queue();
+                        discordEvent.getChannel().sendMessage(url).queue();
 
                         driver.close();
                         driver.quit();

@@ -7,7 +7,6 @@ import saberBot.SaberSpawn;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,11 +14,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class ImageTest extends ListenerAdapter {
 
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent e) throws NullPointerException {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent discordEvent) throws NullPointerException {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Mehul Pillai\\Downloads\\chromedriver_win32 (1)\\chromedriver.exe");
-        String[] arrMessage = e.getMessage().getContentRaw().trim().split(" ", 2);
+        String[] arrMessage = discordEvent.getMessage().getContentRaw().trim().split(" ", 2);
 
-        if (e.getMember().getUser().isBot()) {
+        if (discordEvent.getMember().getUser().isBot()) {
             return;
         }
 
@@ -45,7 +44,7 @@ public class ImageTest extends ListenerAdapter {
                         emb.setTitle("Image", url);
                         emb.setColor(Color.RED);
                         emb.setImage(url);
-                        e.getChannel().sendMessage(emb.build()).queue();
+                        discordEvent.getChannel().sendMessage(emb.build()).queue();
 
                         driver.close();
                         driver.quit();
@@ -93,7 +92,7 @@ public class ImageTest extends ListenerAdapter {
                         emb.setTitle("Image", url);
                         emb.setColor(Color.RED);
                         emb.setImage(url);
-                        e.getChannel().sendMessage(emb.build()).queue();
+                        discordEvent.getChannel().sendMessage(emb.build()).queue();
 
                         driver.close();
                         driver.quit();
@@ -141,7 +140,7 @@ public class ImageTest extends ListenerAdapter {
                         emb.setTitle("Image", url);
                         emb.setColor(Color.RED);
                         emb.setImage(url);
-                        e.getChannel().sendMessage(emb.build()).queue();
+                        discordEvent.getChannel().sendMessage(emb.build()).queue();
 
                         driver.close();
                         driver.quit();

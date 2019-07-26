@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Filters extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent e) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent discordEvent) {
         EmbedBuilder emb = new EmbedBuilder();
         ArrayList<String> noBadWords = new ArrayList<String>();
         noBadWords.add("fuck");
@@ -22,20 +22,20 @@ public class Filters extends ListenerAdapter {
         noBadWords.add("cunt");
         noBadWords.add("shit");
 
-        if (e.getMember().getUser().isBot()) {
+        if (discordEvent.getMember().getUser().isBot()) {
             return;
         }
-        String[] strMessage = e.getMessage().getContentRaw().split(" ");
+        String[] strMessage = discordEvent.getMessage().getContentRaw().split(" ");
 
         for (String s : strMessage) {
-            if (noBadWords.contains(s) && !e.getChannel().toString().contains("gilgamesh")) {
+            if (noBadWords.contains(s) && !discordEvent.getChannel().toString().contains("gilgamesh")) {
                 emb.setTitle("No Bad Words!");
-                emb.addField("User: " + e.getMember().getUser().getName(), "Stop saying bad words, you can go here to the Gilgamesh channel for that!", true);
+                emb.addField("User: " + discordEvent.getMember().getUser().getName(), "Stop saying bad words, you can go here to the Gilgamesh channel for that!", true);
                 emb.setColor(Color.RED);
                 emb.setImage("https://img.fireden.net/v/thumb/1532/63/1532634981382s.jpg");
-                e.getChannel().sendMessage(emb.build()).queue();
-                e.getMessage().delete().queue();
-                System.out.println(e.getChannel().toString());
+                discordEvent.getChannel().sendMessage(emb.build()).queue();
+                discordEvent.getMessage().delete().queue();
+                System.out.println(discordEvent.getChannel().toString());
             }
         }
 
